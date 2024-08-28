@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-modal";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 Modal.setAppElement("#root");
 
@@ -44,10 +45,10 @@ function CargoLoadManagement() {
   };
 
   return (
-    <div>
-      <h1>Cargo Load Management</h1>
-      <table>
-        <thead>
+    <div className="container mt-5">
+      <h1 className="mb-4">Cargo Load Management</h1>
+      <table className="table table-striped table-bordered">
+        <thead className="thead-dark">
           <tr>
             <th>Driver's Full Name</th>
             <th>Vehicle Number</th>
@@ -69,7 +70,9 @@ function CargoLoadManagement() {
         </tbody>
       </table>
 
-      <button onClick={() => setModalIsOpen(true)}>Add New Load</button>
+      <button className="btn btn-primary" onClick={() => setModalIsOpen(true)}>
+        Add New Load
+      </button>
 
       <Modal
         isOpen={modalIsOpen}
@@ -78,30 +81,33 @@ function CargoLoadManagement() {
       >
         <h2>Add New Load</h2>
         <form onSubmit={handleSubmit}>
-          <label>
-            Driver's Full Name:
+          <div className="form-group">
+            <label>Driver's Full Name:</label>
             <input
               type="text"
               name="driverName"
+              className="form-control"
               value={newLoad.driverName}
               onChange={handleInputChange}
               required
             />
-          </label>
-          <label>
-            Vehicle Number:
+          </div>
+          <div className="form-group">
+            <label>Vehicle Number:</label>
             <input
               type="text"
               name="vehicleNumber"
+              className="form-control"
               value={newLoad.vehicleNumber}
               onChange={handleInputChange}
               required
             />
-          </label>
-          <label>
-            Vehicle Type:
+          </div>
+          <div className="form-group">
+            <label>Vehicle Type:</label>
             <select
               name="vehicleType"
+              className="form-control"
               value={newLoad.vehicleType}
               onChange={handleInputChange}
             >
@@ -109,28 +115,37 @@ function CargoLoadManagement() {
               <option value="cistern">Cistern</option>
               <option value="tent">Tent</option>
             </select>
-          </label>
-          <label>
-            Load Weight:
+          </div>
+          <div className="form-group">
+            <label>Load Weight:</label>
             <input
               type="number"
               name="loadWeight"
+              className="form-control"
               value={newLoad.loadWeight}
               onChange={handleInputChange}
               required
             />
-          </label>
-          <label>
-            Dangerous Goods:
+          </div>
+          <div className="form-group form-check">
             <input
               type="checkbox"
+              className="form-check-input"
               checked={newLoad.isDangerousGoods}
               onChange={handleCheckboxChange}
             />
-          </label>
-          <button type="submit">Add Load</button>
+            <label className="form-check-label">Dangerous Goods</label>
+          </div>
+          <button type="submit" className="btn btn-success">
+            Add Load
+          </button>
         </form>
-        <button onClick={() => setModalIsOpen(false)}>Close</button>
+        <button
+          className="btn btn-secondary mt-3"
+          onClick={() => setModalIsOpen(false)}
+        >
+          Close
+        </button>
       </Modal>
     </div>
   );
