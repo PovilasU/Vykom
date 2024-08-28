@@ -1,0 +1,2 @@
+PM> Add-Migration InitialCreate
+PM> Update-database
