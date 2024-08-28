@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileExport } from "@fortawesome/free-solid-svg-icons";
+import Select from "react-select";
 
 function ExportCargoLoads() {
   const [cargoLoads, setCargoLoads] = useState([]);
@@ -10,14 +13,13 @@ function ExportCargoLoads() {
   }, []);
 
   const fetchCargoLoads = async () => {
-    //const response = await axios.get("http://localhost:5000/api/cargoloads");
     const response = await axios.get("https://localhost:7028/api/cargoloads");
     setCargoLoads(response.data);
   };
 
-  const handleSelectionChange = (id) => {
-    setSelectedLoads((prev) =>
-      prev.includes(id) ? prev.filter((loadId) => loadId !== id) : [...prev, id]
+  const handleSelectionChange = (selectedOptions) => {
+    setSelectedLoads(
+      selectedOptions ? selectedOptions.map((option) => option.value) : []
     );
   };
 
@@ -34,39 +36,23 @@ function ExportCargoLoads() {
     link.click();
   };
 
+  const options = cargoLoads.map((load) => ({
+    value: load.id,
+    label: `${load.driverName} - ${load.vehicleNumber}`,
+  }));
+
   return (
     <div>
       <h1>Export Cargo Loads</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Select</th>
-            <th>Driver's Full Name</th>
-            <th>Vehicle Number</th> <th>Vehicle Type</th> <th>Load Weight</th>{" "}
-            <th>Dangerous Goods</th>{" "}
-          </tr>{" "}
-        </thead>{" "}
-        <tbody>
-          {" "}
-          {cargoLoads.map((load) => (
-            <tr key={load.id}>
-              {" "}
-              <td>
-                {" "}
-                <input
-                  type="checkbox"
-                  checked={selectedLoads.includes(load.id)}
-                  onChange={() => handleSelectionChange(load.id)}
-                />{" "}
-              </td>{" "}
-              <td>{load.driverName}</td> <td>{load.vehicleNumber}</td>{" "}
-              <td>{load.vehicleType}</td> <td>{load.loadWeight}</td>{" "}
-              <td>{load.isDangerousGoods ? "Yes" : "No"}</td>{" "}
-            </tr>
-          ))}{" "}
-        </tbody>{" "}
-      </table>{" "}
-      <button onClick={handleExport}>Export Selected Loads</button>{" "}
+      <Select
+        isMulti
+        options={options}
+        onChange={handleSelectionChange}
+        placeholder="Select cargo loads..."
+      />
+      <button onClick={handleExport}>
+        <FontAwesomeIcon icon={faFileExport} /> Export Selected Loads
+      </button>
     </div>
   );
 }

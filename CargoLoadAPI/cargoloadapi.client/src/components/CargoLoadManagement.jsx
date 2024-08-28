@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 function CargoLoadManagement() {
   const [cargoLoads, setCargoLoads] = useState([]);
@@ -10,13 +13,13 @@ function CargoLoadManagement() {
     loadWeight: "",
     isDangerousGoods: false,
   });
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     fetchCargoLoads();
   }, []);
 
   const fetchCargoLoads = async () => {
-    //const response = await axios.get("http://localhost:5000/api/cargoloads");
     const response = await axios.get("https://localhost:7028/api/cargoloads");
     setCargoLoads(response.data);
   };
@@ -35,9 +38,9 @@ function CargoLoadManagement() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //await axios.post("http://localhost:5000/api/cargoloads", newLoad);
     await axios.post("https://localhost:7028/api/cargoloads", newLoad);
     fetchCargoLoads();
+    setModalIsOpen(false);
   };
 
   return (
@@ -66,60 +69,69 @@ function CargoLoadManagement() {
         </tbody>
       </table>
 
-      <h2>Add New Load</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Driver's Full Name:
-          <input
-            type="text"
-            name="driverName"
-            value={newLoad.driverName}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Vehicle Number:
-          <input
-            type="text"
-            name="vehicleNumber"
-            value={newLoad.vehicleNumber}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Vehicle Type:
-          <select
-            name="vehicleType"
-            value={newLoad.vehicleType}
-            onChange={handleInputChange}
-          >
-            <option value="truck">Truck</option>
-            <option value="cistern">Cistern</option>
-            <option value="tent">Tent</option>
-          </select>
-        </label>
-        <label>
-          Load Weight:
-          <input
-            type="number"
-            name="loadWeight"
-            value={newLoad.loadWeight}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label>
-          Dangerous Goods:
-          <input
-            type="checkbox"
-            checked={newLoad.isDangerousGoods}
-            onChange={handleCheckboxChange}
-          />
-        </label>
-        <button type="submit">Add Load</button>
-      </form>
+      <button onClick={() => setModalIsOpen(true)}>Add New Load</button>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Add New Load"
+      >
+        <h2>Add New Load</h2>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Driver's Full Name:
+            <input
+              type="text"
+              name="driverName"
+              value={newLoad.driverName}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <label>
+            Vehicle Number:
+            <input
+              type="text"
+              name="vehicleNumber"
+              value={newLoad.vehicleNumber}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <label>
+            Vehicle Type:
+            <select
+              name="vehicleType"
+              value={newLoad.vehicleType}
+              onChange={handleInputChange}
+            >
+              <option value="truck">Truck</option>
+              <option value="cistern">Cistern</option>
+              <option value="tent">Tent</option>
+            </select>
+          </label>
+          <label>
+            Load Weight:
+            <input
+              type="number"
+              name="loadWeight"
+              value={newLoad.loadWeight}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <label>
+            Dangerous Goods:
+            <input
+              type="checkbox"
+              checked={newLoad.isDangerousGoods}
+              onChange={handleCheckboxChange}
+            />
+          </label>
+          <button type="submit">Add Load</button>
+        </form>
+        <button onClick={() => setModalIsOpen(false)}>Close</button>
+      </Modal>
     </div>
   );
 }
