@@ -7,8 +7,6 @@ using Microsoft.Extensions.Hosting;
 
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using CargoLoadAPI.Server.Data;
-
-
 using CargoLoadAPI.Server.Data;
 using Microsoft.EntityFrameworkCore;
 
