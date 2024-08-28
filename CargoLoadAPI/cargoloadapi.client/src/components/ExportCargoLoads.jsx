@@ -10,7 +10,8 @@ function ExportCargoLoads() {
   }, []);
 
   const fetchCargoLoads = async () => {
-    const response = await axios.get("http://localhost:5000/api/cargoloads");
+    //const response = await axios.get("http://localhost:5000/api/cargoloads");
+    const response = await axios.get("https://localhost:7028/api/cargoloads");
     setCargoLoads(response.data);
   };
 

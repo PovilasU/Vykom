@@ -43,7 +43,8 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
+           // '^/weatherforecast': {
+            '^/api': {
                 target,
                 secure: false
             }
@@ -52,6 +53,13 @@ export default defineConfig({
         https: {
             key: fs.readFileSync(keyFilePath),
             cert: fs.readFileSync(certFilePath),
+        }
+        ,
+        cors: {
+            origin: '*', // Allow all origins
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow specific methods
+            allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+            credentials: true // Allow credentials
         }
     }
 })

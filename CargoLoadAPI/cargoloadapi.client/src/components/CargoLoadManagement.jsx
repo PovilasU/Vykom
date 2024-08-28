@@ -16,7 +16,8 @@ function CargoLoadManagement() {
   }, []);
 
   const fetchCargoLoads = async () => {
-    const response = await axios.get("http://localhost:5000/api/cargoloads");
+    //const response = await axios.get("http://localhost:5000/api/cargoloads");
+    const response = await axios.get("https://localhost:7028/api/cargoloads");
     setCargoLoads(response.data);
   };
 
@@ -26,12 +27,16 @@ function CargoLoadManagement() {
   };
 
   const handleCheckboxChange = (e) => {
-    setNewLoad((prevLoad) => ({ ...prevLoad, isDangerousGoods: e.target.checked }));
+    setNewLoad((prevLoad) => ({
+      ...prevLoad,
+      isDangerousGoods: e.target.checked,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:5000/api/cargoloads", newLoad);
+    //await axios.post("http://localhost:5000/api/cargoloads", newLoad);
+    await axios.post("https://localhost:7028/api/cargoloads", newLoad);
     fetchCargoLoads();
   };
 
@@ -85,7 +90,11 @@ function CargoLoadManagement() {
         </label>
         <label>
           Vehicle Type:
-          <select name="vehicleType" value={newLoad.vehicleType} onChange={handleInputChange}>
+          <select
+            name="vehicleType"
+            value={newLoad.vehicleType}
+            onChange={handleInputChange}
+          >
             <option value="truck">Truck</option>
             <option value="cistern">Cistern</option>
             <option value="tent">Tent</option>
