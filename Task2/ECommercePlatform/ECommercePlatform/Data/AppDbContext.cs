@@ -25,6 +25,28 @@ namespace ECommercePlatform.Data
         {
             base.OnModelCreating(modelBuilder);
 
+
+            // Configure GUID columns to use DEFAULT NEWID()
+            modelBuilder.Entity<Category>()
+                .Property(c => c.CategoryId)
+                .HasDefaultValueSql("NEWID()");
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.ProductId)
+                .HasDefaultValueSql("NEWID()");
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.OrderId)
+                .HasDefaultValueSql("NEWID()");
+
+            modelBuilder.Entity<Review>()
+                .Property(r => r.ReviewId)
+                .HasDefaultValueSql("NEWID()");
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.PaymentId)
+                .HasDefaultValueSql("NEWID()");
+
             // Configure OrderProduct as a many-to-many relationship
             modelBuilder.Entity<OrderProduct>()
                 .HasKey(op => new { op.OrderId, op.ProductId });
@@ -38,8 +60,6 @@ namespace ECommercePlatform.Data
                 .HasOne(op => op.Product)
                 .WithMany(p => p.OrderProducts)
                 .HasForeignKey(op => op.ProductId);
-
-            // Other entity configurations, constraints, or relationships can be set here.
         }
     }
 }

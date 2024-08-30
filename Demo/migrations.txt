@@ -1,2 +1,16 @@
 PM> Add-Migration InitialCreate
 PM> Update-database
+
+
+//task2
+
+
+
+ALTER TABLE [ECommerceDB].[dbo].[Categories]
+ALTER COLUMN [CategoryId] UNIQUEIDENTIFIER DEFAULT NEWID();
+
+
+
+
+
+https://dbdiagram.io/d/vykom2_db-66d18664eef7e08f0e37ac35
